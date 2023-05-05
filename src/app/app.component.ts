@@ -8,17 +8,10 @@ import { ViewChild, AfterViewInit } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements AfterViewInit {
   title = 'table';
-  id!: number;
-  name!: string;
-  weight!: number;
-  symbol!: string;
-  name1!: string;
-  discoverer!: string;
-  ngOnInit() {
-    // this.dataSource.sort = this.sort;
-  }
+
+  
 
   data = [
     {
@@ -180,14 +173,6 @@ export class AppComponent implements OnInit {
     },
   ];
 
-  sortedData = this.data;
-  constructor() {
-
-    this.sortedData = this.data.slice();
-  }
-
-  @ViewChild(MatSort)
-  sort!: MatSort;
   displayedColumns: string[] = [
     'id',
     'name',
@@ -197,40 +182,14 @@ export class AppComponent implements OnInit {
     'discoverer',
   ];
   dataSource = new MatTableDataSource(this.data);
+  @ViewChild(MatSort)
+  sort!: MatSort;
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+    setTimeout(() => {
+      this.dataSource.sort = this.sort;
+      console.log('this.dataSource.sort', this.dataSource.sort);
+    }, 1000);
   }
-  sortChange(event: Event) {
-    const sort = event as unknown as Sort;
 
-    const data2 = this.data.slice();
-    if ( sort.direction === '') {
-      this.sortedData = data2;
-      return;
-    }
-
-    this.sortedData = data2.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'id':
-          return compare(a.id, b.id, isAsc);
-        case 'name':
-          return compare(a.name, b.name, isAsc);
-        case 'weight':
-          return compare(a.weight, b.weight, isAsc);
-        case 'symbol':
-          return compare(a.symbol, b.symbol, isAsc);
-        case 'periodicTable':
-          return compare(a.periodicTable.name, b.periodicTable.name, isAsc);
-        case 'discoverer':
-          return compare(a.discoverer, b.discoverer, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-}
-function compare(a: string | number, b: string | number, isAsc: boolean) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
