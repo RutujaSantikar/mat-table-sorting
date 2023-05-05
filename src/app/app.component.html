@@ -1,7 +1,7 @@
 <table
   mat-table
-  [dataSource]="dataSource"
   matSort
+  [dataSource]="dataSource"
   (matSortChange)="sortChange($event)"
   class="mat-elevation-z8"
 >
@@ -10,10 +10,10 @@
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
+      mat-sort-header="id"
       sortActionDescription="Sort by id"
     >
-      ID
+      Id <mat-icon>swap_vert</mat-icon>
     </th>
     <td mat-cell *matCellDef="let element">{{ element.id }}</td>
   </ng-container>
@@ -23,10 +23,10 @@
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
+      mat-sort-header="name"
       sortActionDescription="Sort by name"
     >
-      Name
+      Name <mat-icon>swap_vert</mat-icon>
     </th>
     <td mat-cell *matCellDef="let element">{{ element.name }}</td>
   </ng-container>
@@ -36,10 +36,10 @@
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
+      mat-sort-header="weight"
       sortActionDescription="Sort by weight"
     >
-      Weight
+      Weight <mat-icon>swap_vert</mat-icon>
     </th>
     <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
   </ng-container>
@@ -49,10 +49,10 @@
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
+      mat-sort-header="symbol"
       sortActionDescription="Sort by symbol"
     >
-      Symbol
+      Symbol <mat-icon>swap_vert</mat-icon>
     </th>
     <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
   </ng-container>
@@ -62,10 +62,10 @@
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
+      mat-sort-header="periodicTable"
       sortActionDescription="Sort by periodic table info"
     >
-      Periodic Table Info
+      Periodic Table Info <mat-icon>swap_vert</mat-icon>
     </th>
     <td mat-cell *matCellDef="let element">
       <!-- <div class="py-1">Position: {{ element.periodicTable.position }}</div> -->
@@ -80,10 +80,10 @@
     <th
       mat-header-cell
       *matHeaderCellDef
-      mat-sort-header
+      mat-sort-header="discoverer"
       sortActionDescription="Sort by discoverer"
     >
-      Discoverer
+      Discoverer <mat-icon>swap_vert</mat-icon>
     </th>
     <td mat-cell *matCellDef="let element">{{ element.discoverer }}</td>
   </ng-container>

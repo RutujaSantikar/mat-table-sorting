@@ -2,17 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { ViewChild, AfterViewInit } from '@angular/core';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit {
   title = 'table';
+  id!: number;
+  name!: string;
+  weight!: number;
+  symbol!: string;
+  name1!: string;
+  discoverer!: string;
+  ngOnInit() {
+    // this.dataSource.sort = this.sort;
+  }
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
   data = [
     {
       id: 1,
@@ -26,6 +33,7 @@ export class AppComponent implements AfterViewInit {
         electronConfiguration: '1s1',
       },
       discoverer: 'Henry Cavendish',
+      info: [],
     },
     {
       id: 2,
@@ -169,8 +177,15 @@ export class AppComponent implements AfterViewInit {
         electronConfiguration: '[Ne] 3s2',
       },
       discoverer: 'Joseph Black',
-    }
+    },
   ];
+
+  sortedData = this.data;
+  constructor() {
+
+    this.sortedData = this.data.slice();
+  }
+
   @ViewChild(MatSort)
   sort!: MatSort;
   displayedColumns: string[] = [
@@ -188,10 +203,34 @@ export class AppComponent implements AfterViewInit {
   }
   sortChange(event: Event) {
     const sort = event as unknown as Sort;
-    if (sort.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sort.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+
+    const data2 = this.data.slice();
+    if ( sort.direction === '') {
+      this.sortedData = data2;
+      return;
     }
+
+    this.sortedData = data2.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'id':
+          return compare(a.id, b.id, isAsc);
+        case 'name':
+          return compare(a.name, b.name, isAsc);
+        case 'weight':
+          return compare(a.weight, b.weight, isAsc);
+        case 'symbol':
+          return compare(a.symbol, b.symbol, isAsc);
+        case 'periodicTable':
+          return compare(a.periodicTable.name, b.periodicTable.name, isAsc);
+        case 'discoverer':
+          return compare(a.discoverer, b.discoverer, isAsc);
+        default:
+          return 0;
+      }
+    });
   }
+}
+function compare(a: string | number, b: string | number, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
